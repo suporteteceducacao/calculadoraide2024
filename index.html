@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora IDE - Diretoria de Avaliação e Monitoramento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+    }
+
+    .header-logo {
+      max-height: 80px;
+      width: auto;
+    }
+
+    .form-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    /* Modal */
+    #modalRelatorio {
+      display: none;
+      position: fixed;
+      z-index: 1200;
+      padding-top: 6rem;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #modalRelatorio .modal-content {
+      background-color: #fff;
+      margin: auto;
+      border-radius: 8px;
+      max-width: 600px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    #modalRelatorio .modal-header,
+    #modalRelatorio .modal-footer {
+      background-color: #0056b3;
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 8px 8px 0 0;
+    }
+
+    #modalRelatorio .modal-footer {
+      border-radius: 0 0 8px 8px;
+      text-align: right;
+    }
+
+    #modalRelatorio .modal-body {
+      padding: 1rem 1rem 0 1rem;
+      color: #333;
+    }
+
+    #modalRelatorio .close-btn {
+      position: absolute;
+      right: 1rem;
+      top: 0.8rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="container py-4 d-flex align-items-center justify-content-between">
+    <div>
+      <img src="img/Logomarca da Secretaria de Educação 2021.png" alt="Logo" class="header-logo" />
+    </div>
+    <h1 class="h4 m-0 fw-bold text-primary">
+  Diretoria de Avaliação e Monitoramento <br>
+  <span class="text-muted fs-6">Setor de Processamento e Monitoramento de Resultados</span>
+</h1>
+
+  </header>
+
+  <main class="container my-4">
+    <div class="form-section mx-auto" style="max-width: 900px;">
+      <h2 class="mb-4 text-center text-secondary">Calculadora IDE - 2°, 5° e 9° Ano (SPAECE / 2024)</h2>
+      <form id="ideForm" novalidate>
+        <div class="mb-3">
+          <label for="escolaSelect" class="form-label">Selecione a escola</label>
+          <select class="form-select" id="escolaSelect" required>
+            <option value="" selected disabled>Selecione uma opção</option>
+            <option value="ADAUTO FERREIRA LIMA EMEIEF">ADAUTO FERREIRA LIMA EMEIEF</option>
+            <option value="ALMIR FREITAS DUTRA EMEIEF PREFEITO">ALMIR FREITAS DUTRA EMEIEF PREFEITO</option>
+            <option value="ANA BEATRIZ MACEDO TAVARES MARQUES EMEF ESTUDANTE">ANA BEATRIZ MACEDO TAVARES MARQUES EMEF ESTUDANTE</option>
+            <option value="ANTONIO DE ALBUQUERQUE SOUSA FILHO EMEIEF">ANTONIO DE ALBUQUERQUE SOUSA FILHO EMEIEF</option>
+            <option value="ANTONIO GONDIM DE LIMA EMEIEF">ANTONIO GONDIM DE LIMA EMEIEF</option>
+            <option value="APRENDER PENSANDO EMEF">APRENDER PENSANDO EMEF</option>
+            <option value="BRAZ RIBEIRO DA SILVA EMEF">BRAZ RIBEIRO DA SILVA EMEF</option>
+            <option value="CARLOS DRUMMOND DE ANDRADE EMEIEF">CARLOS DRUMMOND DE ANDRADE EMEIEF</option>
+            <option value="CARLOS JEREISSATI EMEIEF SENADOR">CARLOS JEREISSATI EMEIEF SENADOR</option>
+            <option value="CESAR CALS DE OLIVEIRA FILHO EMEIEF GOVERNADOR">CESAR CALS DE OLIVEIRA FILHO EMEIEF GOVERNADOR</option>
+            <option value="CESAR CALS NETO EMEIEF">CESAR CALS NETO EMEIEF</option>
+            <option value="CEZARINA DE OLIVEIRA GOMES EMEIEF PROFª">CEZARINA DE OLIVEIRA GOMES EMEIEF PROFª</option>
+            <option value="CORA CORALINA EMEIEF">CORA CORALINA EMEIEF</option>
+            <option value="DULCE EMEIEF IRMA">DULCE EMEIEF IRMA</option>
+            <option value="EDSON QUEIROZ EMEIEF">EDSON QUEIROZ EMEIEF</option>
+            <option value="EDWIRGES EMEIEF SANTA">EDWIRGES EMEIEF SANTA</option>
+            <option value="ELEAZAR DE CARVALHO EMEF MAESTRO">ELEAZAR DE CARVALHO EMEF MAESTRO</option>
+            <option value="ELIAN DE AGUIAR MENDES, EMEIEF">ELIAN DE AGUIAR MENDES, EMEIEF</option>
+            <option value="ELIAS SILVA OLIVEIRA EMEIEF">ELIAS SILVA OLIVEIRA EMEIEF</option>
+            <option value="EVANDRO AYRES DE MOURA EMEF">EVANDRO AYRES DE MOURA EMEF</option>
+            <option value="FRANCISCA FLORENCIA DA SILVA EMEIEF PROFª">FRANCISCA FLORENCIA DA SILVA EMEIEF PROFª</option>
+            <option value="FRANCISCO ANTONIO FONTENELE EMEIEF">FRANCISCO ANTONIO FONTENELE EMEIEF</option>
+            <option value="FRANCISCO ARAUJO DO NASCIMENTO EMEIEF PROFº">FRANCISCO ARAUJO DO NASCIMENTO EMEIEF PROFº</option>
+            <option value="FRANCISCO BARBOSA EMEIEF COMISSARIO">FRANCISCO BARBOSA EMEIEF COMISSARIO</option>
+            <option value="FRANCISCO OSCAR RODRIGUES EMEIEF PROFº">FRANCISCO OSCAR RODRIGUES EMEIEF PROFº</option>
+            <option value="FRANCISCO TABOZA FILHO, EMEF">FRANCISCO TABOZA FILHO, EMEF</option>
+            <option value="GENCIANO GUERREIRO DE BRITO EMEIEF">GENCIANO GUERREIRO DE BRITO EMEIEF</option>
+            <option value="HEITOR VILLA LOBOS EMEIEF">HEITOR VILLA LOBOS EMEIEF</option>
+            <option value="HELDER PESSOA CAMARA EMEIEF DOM">HELDER PESSOA CAMARA EMEIEF DOM</option>
+            <option value="HERBERT JOSE DE SOUZA BETINHO EMEIEF">HERBERT JOSE DE SOUZA BETINHO EMEIEF</option>
+            <option value="INTEGRANDO O SABER EMEIEF">INTEGRANDO O SABER EMEIEF</option>
+            <option value="JOAO MAGALHAES DE OLIVEIRA EMEIEF">JOAO MAGALHAES DE OLIVEIRA EMEIEF</option>
+            <option value="JOAQUIM AGUIAR EMEIEF">JOAQUIM AGUIAR EMEIEF</option>
+            <option value="JOSE ASSIS DE OLIVEIRA EMEIEF">JOSE ASSIS DE OLIVEIRA EMEIEF</option>
+            <option value="JOSE BELISARIO DE SOUSA EMEF">JOSE BELISARIO DE SOUSA EMEF</option>
+            <option value="JOSE DANTAS SOBRINHO EMEIEF">JOSE DANTAS SOBRINHO EMEIEF</option>
+            <option value="JOSE DE BORBA VASCONCELOS EMEF DR">JOSE DE BORBA VASCONCELOS EMEF DR</option>
+            <option value="JOSE MARIA BARROS PINHO EMEF PROFESSOR">JOSE MARIA BARROS PINHO EMEF PROFESSOR</option>
+            <option value="JOSE MARIO BARBOSA EMEIEF">JOSE MARIO BARBOSA EMEIEF</option>
+            <option value="JOSE MARTINS RODRIGUES EMEIEF DEPUTADO">JOSE MARTINS RODRIGUES EMEIEF DEPUTADO</option>
+            <option value="JOSE NOGUEIRA MOTA EMEIEF">JOSE NOGUEIRA MOTA EMEIEF</option>
+            <option value="LUIZ GONZAGA DOS SANTOS EMEIEF">LUIZ GONZAGA DOS SANTOS EMEIEF</option>
+            <option value="MANOEL MOREIRA LIMA EMEIEF">MANOEL MOREIRA LIMA EMEIEF</option>
+            <option value="MANOEL RODRIGUES PINHEIRO DE MELO EMEIEF">MANOEL RODRIGUES PINHEIRO DE MELO EMEIEF</option>
+            <option value="MANOEL ROSEO LANDIM EMEF">MANOEL ROSEO LANDIM EMEF</option>
+            <option value="MARACANAÚ">MARACANAÚ</option>
+            <option value="MARIA DE LOURDES SILVA EMEF PROFª">MARIA DE LOURDES SILVA EMEF PROFª</option>
+            <option value="MARIA DO SOCORRO VIANA FREITAS EMEIEF PROFª">MARIA DO SOCORRO VIANA FREITAS EMEIEF PROFª</option>
+            <option value="MARIA ISIS MENEZES ANDRADE, EMEIEF">MARIA ISIS MENEZES ANDRADE, EMEIEF</option>
+            <option value="MARIA JOSE HOLANDA DO VALE EMEIEF PROFª">MARIA JOSE HOLANDA DO VALE EMEIEF PROFª</option>
+            <option value="MARIA JOSE ISIDORO EMEIEF PROFª">MARIA JOSE ISIDORO EMEIEF PROFª</option>
+            <option value="MARIA MARQUES DO NASCIMENTO EMEIEF">MARIA MARQUES DO NASCIMENTO EMEIEF</option>
+            <option value="MARIA PEREIRA DA SILVA EMEF">MARIA PEREIRA DA SILVA EMEF</option>
+            <option value="MARIO COVAS EMEIEF GOVERNADOR">MARIO COVAS EMEIEF GOVERNADOR</option>
+            <option value="NAPOLEAO BONAPARTE VIANA EMEIEF">NAPOLEAO BONAPARTE VIANA EMEIEF</option>
+            <option value="NARCISO PESSOA DE ARAUJO EMEIEF">NARCISO PESSOA DE ARAUJO EMEIEF</option>
+            <option value="NORBERTO ALVES BATALHA EMEIEF">NORBERTO ALVES BATALHA EMEIEF</option>
+            <option value="NORMA CELIA PINHEIRO CRISPIM EMEIEF PROFª">NORMA CELIA PINHEIRO CRISPIM EMEIEF PROFª</option>
+            <option value="PAULO FREIRE EMEIEF PROFº">PAULO FREIRE EMEIEF PROFº</option>
+            <option value="POVO PITAGUARI EMIEB">POVO PITAGUARI EMIEB</option>
+            <option value="RAIMUNDO NOGUEIRA EMEIEF">RAIMUNDO NOGUEIRA EMEIEF</option>
+            <option value="RACHEL DE QUEIROZ EMEF">RACHEL DE QUEIROZ EMEF</option>
+            <option value="RODOLFO TEOFILO EMEF">RODOLFO TEOFILO EMEF</option>
+            <option value="RUI BARBOSA EMEF">RUI BARBOSA EMEF</option>
+            <option value="SINFRONIO PEIXOTO DE MORAIS EMEIEF">SINFRONIO PEIXOTO DE MORAIS EMEIEF</option>
+            <option value="TANCREDO NEVES ECIM PRESIDENTE">TANCREDO NEVES ECIM PRESIDENTE</option>
+            <option value="TEREZA DE CALCUTA EMEF MADRE">TEREZA DE CALCUTA EMEF MADRE</option>
+            <option value="ULYSSES GUIMARAES EMEF DEPUTADO">ULYSSES GUIMARAES EMEF DEPUTADO</option>
+            <option value="VALDENIA ACELINO DA SILVA EMEF">VALDENIA ACELINO DA SILVA EMEF</option>
+            <option value="VINICIUS DE MORAIS EMEIEF">VINICIUS DE MORAIS EMEIEF</option>
+            <option value="WALMIKI SAMPAIO DE ALBUQUERQUE EMEIEF">WALMIKI SAMPAIO DE ALBUQUERQUE EMEIEF</option>
+          </select>
+          <div class="invalid-feedback">Por favor, selecione uma escola.</div>
+        </div>
+
+        <div class="mb-4">
+          <label for="etapaSelect" class="form-label">Selecione a etapa de aprendizado</label>
+          <select class="form-select" id="etapaSelect" required>
+            <option value="" selected disabled>Selecione etapa</option>
+            <option value="2">2º ano</option>
+            <option value="5">5º ano</option>
+            <option value="9">9º ano</option>
+          </select>
+          <div class="invalid-feedback">Por favor, selecione uma etapa.</div>
+        </div>
+
+        <div class="mb-4">
+          <label for="componenteSelect" class="form-label">Selecione o componente curricular</label>
+          <select class="form-select" id="componenteSelect" required>
+            <option value="" selected disabled>Selecione o componente</option>
+            <option value="LP">Língua Portuguesa</option>
+            <option value="MT">Matemática</option>
+          </select>
+          <div class="invalid-feedback">Por favor, selecione o componente curricular.</div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label for="totalMatriculados" class="form-label">Digite o total de ALUNOS MATRICULADOS</label>
+            <input type="number" class="form-control" id="totalMatriculados" min="0" required />
+            <div class="invalid-feedback">Digite o total de alunos matriculados.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="totalAvaliados" class="form-label">Digite o total de ALUNOS AVALIADOS</label>
+            <input type="number" class="form-control" id="totalAvaliados" min="0" required />
+            <div class="invalid-feedback">Digite o total de alunos avaliados.</div>
+          </div>
+        </div>
+
+        <div id="inputsEtapa" class="mb-4">
+          <!-- Inputs de proficiência aparecerão aqui -->
+        </div>
+
+        <div id="dadosPercentuaisLP" class="mb-4" style="display:none">
+          <label class="form-label fw-semibold">Dados percentuais de aprendizado em Língua Portuguesa *</label>
+          <div class="row gx-3">
+            <div class="col-md-3 mb-3">
+              <label for="percentAbaixoBasicoLP" class="form-label">Abaixo do Básico</label>
+              <input type="number" class="form-control" id="percentAbaixoBasicoLP" min="0" max="100" step="0.1" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="percentBasicoLP" class="form-label">Básico</label>
+              <input type="number" class="form-control" id="percentBasicoLP" min="0" max="100" step="0.1" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="percentProficienteLP" class="form-label">Proficiente</label>
+              <input type="number" class="form-control" id="percentProficienteLP" min="0" max="100" step="0.1" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="percentAvancadoLP" class="form-label">Avançado</label>
+              <input type="number" class="form-control" id="percentAvancadoLP" min="0" max="100" step="0.1" />
+            </div>
+          </div>
+        </div>
+
+        <div id="dadosPercentuaisMT" class="mb-4" style="display:none">
+          <label class="form-label fw-semibold">Dados percentuais de aprendizado em Matemática *</label>
+          <div class="row gx-3">
+            <div class="col-md-3 mb-3">
+              <label for="percentAbaixoBasicoMT" class="form-label">Abaixo do Básico</label>
+              <input type="number" class="form-control" id="percentAbaixoBasicoMT" min="0" max="100" step="0.1" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="percentBasicoMT" class="form-label">Básico</label>
+              <input type="number" class="form-control" id="percentBasicoMT" min="0" max="100" step="0.1" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="percentProficienteMT" class="form-label">Proficiente</label>
+              <input type="number" class="form-control" id="percentProficienteMT" min="0" max="100" step="0.1" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="percentAvancadoMT" class="form-label">Avançado</label>
+              <input type="number" class="form-control" id="percentAvancadoMT" min="0" max="100" step="0.1" />
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button type="reset" class="btn btn-outline-secondary">Limpar</button>
+          <button type="submit" class="btn btn-primary">Calcular</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    Diretoria de Avaliação e Monitoramento | Setor de Processamento e Monitoramento de Resultados &copy; 2025
+  </footer>
+
+  <!-- Modal Relatório -->
+  <div id="modalRelatorio">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close-btn" id="modalCloseBtn">&times;</button>
+        <h4>Relatório do Cálculo IDE / SPAECE </h4>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modalCloseBtnFooter">Fechar</button>
+        <button class="btn btn-primary" id="btnPdfModal">Gerar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    (() => {
+      const etapaSelect = document.getElementById('etapaSelect');
+      const componenteSelect = document.getElementById('componenteSelect');
+      const inputsEtapa = document.getElementById('inputsEtapa');
+      const form = document.getElementById('ideForm');
+      const dadosPercentuaisLP = document.getElementById('dadosPercentuaisLP');
+      const dadosPercentuaisMT = document.getElementById('dadosPercentuaisMT');
+      const modal = document.getElementById('modalRelatorio');
+      const modalBody = document.getElementById('modalBody');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const modalCloseBtnFooter = document.getElementById('modalCloseBtnFooter');
+      const btnPdfModal = document.getElementById('btnPdfModal');
+
+      function createInput(id, label, required = false) {
+        return `
+          <div class="mb-3">
+            <label for="${id}" class="form-label">${label}</label>
+            <input type="number" class="form-control" id="${id}" min="0" step="any" ${required ? 'required' : ''} />
+            <div class="invalid-feedback">Por favor, preencha este campo corretamente.</div>
+          </div>
+        `;
+      }
+
+      // controla inputs e percentuais visíveis conforme escolha de etapa e componente
+      function atualizarCampos() {
+        const etapa = etapaSelect.value;
+        const componente = componenteSelect.value;
+
+        // mostrar inputs de proficiência
+        if (['2', '5', '9'].includes(etapa)) {
+          inputsEtapa.innerHTML =
+            createInput('prof' + componente, `Digite a PROFICIÊNCIA DE ${componente === 'LP' ? 'LÍNGUA PORTUGUESA' : 'MATEMÁTICA'} *`, true);
+        } else {
+          inputsEtapa.innerHTML = '';
+        }
+
+        // mostrar somente os campos percentuais da disciplina escolhida
+        if (componente === 'LP') {
+          dadosPercentuaisLP.style.display = 'block';
+          dadosPercentuaisMT.style.display = 'none';
+          setRequiredPercentuais('LP');
+          clearPercentuais('MT');
+        } else if (componente === 'MT') {
+          dadosPercentuaisLP.style.display = 'none';
+          dadosPercentuaisMT.style.display = 'block';
+          setRequiredPercentuais('MT');
+          clearPercentuais('LP');
+        } else {
+          dadosPercentuaisLP.style.display = 'none';
+          dadosPercentuaisMT.style.display = 'none';
+          clearPercentuais('LP');
+          clearPercentuais('MT');
+        }
+      }
+
+      function setRequiredPercentuais(componente) {
+        const prefix = componente === 'LP' ? 'percent' : 'percent';
+        const sufix = componente === 'LP' ? 'LP' : 'MT';
+        ['AbaixoBasico', 'Basico', 'Proficiente', 'Avancado'].forEach(level => {
+          document.getElementById(prefix + level + sufix).required = true;
+        });
+      }
+
+      function clearPercentuais(componente) {
+        const prefix = componente === 'LP' ? 'percent' : 'percent';
+        const sufix = componente === 'LP' ? 'LP' : 'MT';
+        ['AbaixoBasico', 'Basico', 'Proficiente', 'Avancado'].forEach(level => {
+          const el = document.getElementById(prefix + level + sufix);
+          el.required = false;
+          el.value = '';
+        });
+      }
+
+      etapaSelect.addEventListener('change', atualizarCampos);
+      componenteSelect.addEventListener('change', atualizarCampos);
+
+      function fecharModal() {
+        modal.style.display = 'none';
+      }
+      modalCloseBtn.addEventListener('click', fecharModal);
+      modalCloseBtnFooter.addEventListener('click', fecharModal);
+      window.addEventListener('click', e => {
+        if (e.target === modal) fecharModal();
+      });
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        form.classList.remove('was-validated');
+        modalBody.innerHTML = '';
+
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated');
+          return;
+        }
+
+        const escola = document.getElementById('escolaSelect').value;
+        const etapa = etapaSelect.value;
+        const componente = componenteSelect.value;
+        const totalMatriculados = Number(document.getElementById('totalMatriculados').value);
+        const totalAvaliados = Number(document.getElementById('totalAvaliados').value);
+
+        const proficiencia = Number(document.getElementById('prof' + componente).value);
+
+        // Capturar percentuais conforme componente
+        const percentuais = {};
+        ['AbaixoBasico', 'Basico', 'Proficiente', 'Avancado'].forEach(level => {
+          percentuais[level] = Number(document.getElementById('percent' + level + componente).value);
+        });
+
+        // Calcula taxa como percentual * 100
+        const taxa = totalMatriculados > 0 ? (totalAvaliados / totalMatriculados) * 100 : 0;
+
+        // Fator de ajuste
+        const fatorAjuste =
+          0.25 * percentuais.AbaixoBasico +
+          0.5 * percentuais.Basico +
+          0.75 * percentuais.Proficiente +
+          1 * percentuais.Avancado;
+
+        // Padronização conforme etapa e componente
+        let padronizada = 0;
+        if (etapa === '2' && componente === 'LP') {
+          padronizada = ((proficiencia - 400) / 400) * 10;
+        } else if (etapa === '2' && componente === 'MT') {
+          padronizada = ((proficiencia - 300) / 400) * 10;
+        } else if (etapa === '5' && componente === 'LP') {
+          padronizada = ((proficiencia - 75) / 200) * 10;
+        } else if (etapa === '5' && componente === 'MT') {
+          padronizada = ((proficiencia - 100) / 200) * 10;
+        } else if (etapa === '9' && componente === 'LP') {
+          padronizada = ((proficiencia - 180) / 200) * 10;
+        } else if (etapa === '9' && componente === 'MT') {
+          padronizada = ((proficiencia - 175) / 200) * 10;
+        }
+        if (padronizada < 0) padronizada = 0;
+
+       const ide = ((taxa * fatorAjuste * padronizada) / 10000);
+
+        mostrarRelatorio({
+          escola,
+          etapa,
+          componente,
+          totalMatriculados,
+          totalAvaliados,
+          taxa,
+          proficiencia,
+          fatorAjuste,
+          ide,
+          padronizada
+        });
+
+        modal.style.display = 'block';
+      });
+
+      btnPdfModal.addEventListener('click', () => {
+        // Recalcula dados para o pdf
+        const escola = document.getElementById('escolaSelect').value;
+        const etapa = etapaSelect.value;
+        const componente = componenteSelect.value;
+        const totalMatriculados = Number(document.getElementById('totalMatriculados').value);
+        const totalAvaliados = Number(document.getElementById('totalAvaliados').value);
+        const proficiencia = Number(document.getElementById('prof' + componente).value);
+
+        const percentuais = {};
+        ['AbaixoBasico', 'Basico', 'Proficiente', 'Avancado'].forEach(level => {
+          percentuais[level] = Number(document.getElementById('percent' + level + componente).value);
+        });
+
+        const taxa = totalMatriculados > 0 ? (totalAvaliados / totalMatriculados) * 100 : 0;
+        const fatorAjuste =
+          0.25 * percentuais.AbaixoBasico +
+          0.5 * percentuais.Basico +
+          0.75 * percentuais.Proficiente +
+          1 * percentuais.Avancado;
+
+        let padronizada = 0;
+        if (etapa === '2' && componente === 'LP') {
+          padronizada = ((proficiencia - 400) / 400) * 10;
+        } else if (etapa === '2' && componente === 'MT') {
+          padronizada = ((proficiencia - 300) / 400) * 10;
+        } else if (etapa === '5' && componente === 'LP') {
+          padronizada = ((proficiencia - 75) / 200) * 10;
+        } else if (etapa === '5' && componente === 'MT') {
+          padronizada = ((proficiencia - 100) / 200) * 10;
+        } else if (etapa === '9' && componente === 'LP') {
+          padronizada = ((proficiencia - 180) / 200) * 10;
+        } else if (etapa === '9' && componente === 'MT') {
+          padronizada = ((proficiencia - 175) / 200) * 10;
+        }
+        if (padronizada < 0) padronizada = 0;
+
+        const ide = ((taxa * fatorAjuste * padronizada) / 10000);
+
+        gerarPDF({
+          escola,
+          etapa,
+          componente,
+          totalMatriculados,
+          totalAvaliados,
+          taxa,
+          proficiencia,
+          fatorAjuste,
+          ide,
+          padronizada
+        });
+      });
+
+      function mostrarRelatorio(dados) {
+        const componenteNome = dados.componente === 'LP' ? 'Língua Portuguesa' : 'Matemática';
+        modalBody.innerHTML = `
+          <p><strong>Escola:</strong> ${dados.escola}</p>
+          <p><strong>Etapa:</strong> ${dados.etapa}º ano</p>
+          <p><strong>Componente:</strong> ${componenteNome}</p>
+          <p><strong>Total Matriculados:</strong> ${dados.totalMatriculados}</p>
+          <p><strong>Total Avaliados:</strong> ${dados.totalAvaliados}</p>
+          <p><strong>Taxa (%):</strong> ${dados.taxa.toFixed(1)}</p>
+          <p><strong>Proficiência:</strong> ${dados.proficiencia}</p>
+          <p><strong>Padronizada:</strong> ${dados.padronizada.toFixed(1)}</p>
+          <p><strong>Fator de Ajuste:</strong> ${dados.fatorAjuste.toFixed(1)}</p>
+          <p><strong>IDE ${componenteNome}:</strong> ${dados.ide.toFixed(1)}</p>
+        `;
+      }
+
+      function gerarPDF(dados) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFillColor(0, 86, 179);
+        doc.rect(0, 0, 210, 20, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(16);
+        doc.text('Relatório de Cálculo IDE / SPAECE', 10, 14);
+
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(12);
+        let y = 30;
+        const lineHeight = 10;
+        const leftMargin = 10;
+        doc.text(`Escola: ${dados.escola}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Etapa: ${dados.etapa}º ano`, leftMargin, y);
+        y += lineHeight;
+        const componenteNome = dados.componente === 'LP' ? 'Língua Portuguesa' : 'Matemática';
+        doc.text(`Componente: ${componenteNome}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Total Matriculados: ${dados.totalMatriculados}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Total Avaliados: ${dados.totalAvaliados}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Taxa (%): ${dados.taxa.toFixed(2)}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Proficiência: ${dados.proficiencia}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Nota Padronizada: ${dados.padronizada.toFixed(2)}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`Fator de Ajuste: ${dados.fatorAjuste.toFixed(2)}`, leftMargin, y);
+        y += lineHeight;
+        doc.text(`IDE ${componenteNome}: ${dados.ide.toFixed(2)}`, leftMargin, y);
+        y += lineHeight;
+
+        doc.setFillColor(0, 86, 179);
+        doc.rect(0, 280, 210, 20, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(10);
+        doc.text('Diretoria de Avaliação e Monitoramento - © 2025', 105, 290, null, null, 'center');
+
+        doc.save(`Relatorio_IDE_${dados.escola.replace(/\s+/g, "_")}_${componenteNome}.pdf`);
+      }
+
+    })();
+  </script>
+</body>
+
+</html>
